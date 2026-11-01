@@ -1,3 +1,5 @@
+import TryToBreak from "./TryToBreak"
+
 export default function Hero() {
   const line = "Better now than in the interview."
   return (
@@ -11,6 +13,7 @@ export default function Hero() {
           <a className="btn outline" href="#loop">How it works</a>
         </div>
       </div>
+      <TryToBreak />
     </section>
   )
 }

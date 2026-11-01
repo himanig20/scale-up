@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import Hero from "./components/Hero"
-import TryToBreak from "./components/TryToBreak"
 import Background from "./components/Background"
 import Playground from "./components/Playground"
 import Terminal from "./components/Terminal"
@@ -49,7 +48,6 @@ export default function App() {
       </header>
       <main className="wrap">
         <Hero />
-        <TryToBreak />
         <section>
           <div className="k">WHY YOU FORGET</div>
           <h2>Reading about caches doesn’t make them stick.</h2>
