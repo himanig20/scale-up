@@ -18,9 +18,9 @@ export default function TryToBreak() {
   }
 
   return (
-    <div className="card">
+    <div className="card sim" id="try">
       <div className="k" style={{ color: "var(--rd)" }}>TRY TO BREAK IT</div>
-      <div>{(users * 1000).toLocaleString("en-US")} users online</div>
+      <div className="user-count"><span>users online</span><strong>{(users * 1000).toLocaleString("en-US")}</strong></div>
       <input
         type="range" min={1} max={120} value={users}
         onChange={(e) => setUsers(Number(e.target.value))}
@@ -30,6 +30,7 @@ export default function TryToBreak() {
           <div key={s.name} className={`srv ${s.status}`}>
             Server {s.name}<br />
             {s.status === "down" ? "DOWN" : Math.round(s.load) + "%"}
+            <i style={{ width: `${Math.min(s.load, 100)}%` }} />
           </div>
         ))}
       </div>
