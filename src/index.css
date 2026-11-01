@@ -13,3 +13,10 @@ p{color:var(--mu);max-width:560px}
 .glitch::after{color:var(--am);clip-path:inset(55% 0 0 0);animation:gl2 3.4s infinite steps(1)}
 @keyframes gl1{0%,90%{transform:none}92%{transform:translate(-4px,1px)}96%{transform:translate(4px,-1px)}}
 @keyframes gl2{0%,86%{transform:none}88%{transform:translate(4px,0)}94%{transform:translate(-4px,1px)}}
+
+.card{background:var(--panel);border:1px solid var(--rd);padding:22px;max-width:460px}
+.card input{width:100%;accent-color:var(--am)}
+.srvs{display:flex;gap:10px;margin:16px 0}
+.srv{flex:1;border:2px solid var(--cy);padding:10px;font-family:"JetBrains Mono",monospace;font-size:13px}
+.srv.warn{border-color:var(--am)}
+.srv.down{border-color:var(--rd);color:var(--rd);box-shadow:0 0 20px var(--rd)}
