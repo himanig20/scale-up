@@ -8,6 +8,7 @@
   --mg: #ff2e93;
   --am: #ffb800;
   --rd: #ff4545;
+  --night-opacity: 0;
   color-scheme: dark;
   font-family: Rajdhani, system-ui, sans-serif;
 }
@@ -23,6 +24,8 @@ nav { display: flex; gap: 24px; color: var(--cy); font-size: 14px; }
 .clock { color: var(--rd); border: 1px solid var(--rd); padding: 4px 10px; font-size: 12px; }
 .stream { position: fixed; left: 14px; top: 0; bottom: 0; width: 2px; z-index: 5; background: repeating-linear-gradient(180deg, transparent 0 60px, var(--mg) 60px 100px); opacity: .5; animation: flow 3s linear infinite; }
 @keyframes flow { to { background-position: 0 200px; } }
+.background { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: .6; pointer-events: none; }
+.night { position: fixed; inset: 0; z-index: 10; background: #000; opacity: var(--night-opacity); pointer-events: none; }
 .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 0 40px; }
 section { padding: 96px 0; }
 .hero { padding-top: 150px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 48px; align-items: center; }
@@ -54,7 +57,8 @@ input[type=range] { width: 100%; accent-color: var(--am); }
 .srv.down { border-color: var(--rd); color: var(--rd); box-shadow: 0 0 20px var(--rd); }
 .srv.down i { background: var(--rd); }
 .steps { display: grid; gap: 20px; }
-.step { display: flex; gap: 20px; align-items: flex-start; }
+.step { display: flex; gap: 20px; align-items: flex-start; opacity: .35; transform: translateY(20px); transition: .6s; }
+.step.on { opacity: 1; transform: none; }
 .num { color: var(--mg); font-size: 36px; font-weight: 700; min-width: 64px; }
 .cast, .modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-top: 28px; }
 .cast-card:hover { border-color: var(--cy); transform: translateY(-4px); }
@@ -63,11 +67,13 @@ input[type=range] { width: 100%; accent-color: var(--am); }
 .cy { color: var(--cy); }.am { color: var(--am); }.rd { color: var(--rd); }
 .term { background: #07070f; border: 1px solid var(--line); padding: 20px; font-size: 13px; line-height: 1.9; min-height: 230px; color: var(--mu); overflow-x: auto; }
 .warn { color: var(--am); }.error { color: #ff6b6b; }
-.pg { position: relative; height: 380px; border: 1px dashed var(--line); background: rgba(20, 20, 43, .8); margin-top: 24px; overflow: hidden; }
-.nd { position: absolute; z-index: 2; padding: 12px 14px; border: 2px solid var(--cy); color: var(--cy); background: var(--bg); font: 12px "JetBrains Mono", monospace; }
-.node-0 { left: 4%; top: 42%; }.node-1 { left: 26%; top: 42%; border-color: var(--mg); color: var(--mg); }.node-2 { left: 52%; top: 10%; }.node-3 { left: 52%; top: 74%; }.node-4 { left: 76%; top: 42%; border-color: var(--am); color: var(--am); }
-.link { position: absolute; z-index: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--mg) 0 6px, transparent 6px 12px); transform-origin: left center; }
-.l1 { left: 15%; top: 50%; width: 15%; }.l2 { left: 40%; top: 47%; width: 17%; transform: rotate(-25deg); }.l3 { left: 40%; top: 55%; width: 17%; transform: rotate(25deg); }
+.pg { position: relative; height: 380px; border: 1px dashed var(--line); background: rgba(20, 20, 43, .8); margin-top: 24px; overflow: hidden; touch-action: none; }
+.playground-lines { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+.playground-lines path { fill: none; stroke: var(--mg); stroke-width: 2; stroke-dasharray: 6 6; animation: dash 1s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -12; } }
+.nd { position: absolute; z-index: 2; padding: 12px 14px; border: 2px solid var(--cy); color: var(--cy); background: var(--bg); font: 12px "JetBrains Mono", monospace; cursor: grab; user-select: none; touch-action: none; box-shadow: 0 0 14px rgba(46, 242, 255, .4); }
+.nd:active { cursor: grabbing; }
+.node-1 { border-color: var(--mg); color: var(--mg); box-shadow: 0 0 14px rgba(255, 46, 147, .4); }.node-4 { border-color: var(--am); color: var(--am); box-shadow: 0 0 14px rgba(255, 184, 0, .4); }
 footer { padding: 64px 0 96px; text-align: center; }
 footer p { margin: 0 auto 24px; }
 button:disabled { opacity: .6; cursor: not-allowed; }

@@ -1,9 +1,42 @@
+import { useEffect, useState } from "react"
 import Hero from "./components/Hero"
 import TryToBreak from "./components/TryToBreak"
+import Background from "./components/Background"
+import Playground from "./components/Playground"
+import Terminal from "./components/Terminal"
 
 export default function App() {
+  const [clock, setClock] = useState("11:40 PM")
+
+  useEffect(() => {
+    const updateScrollEffects = () => {
+      const distance = document.documentElement.scrollHeight - window.innerHeight
+      const progress = distance > 0 ? Math.min(1, window.scrollY / distance) : 0
+      const totalMinutes = 1420 + Math.round(progress * 212)
+      const minutes = totalMinutes % 1440
+      const hours = Math.floor(minutes / 60)
+      const displayHour = hours % 12 || 12
+      setClock(`${displayHour}:${String(minutes % 60).padStart(2, "0")} ${hours >= 12 ? "PM" : "AM"}`)
+      document.documentElement.style.setProperty("--night-opacity", (progress * 0.3).toFixed(2))
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("on")),
+      { threshold: 0.4 },
+    )
+    document.querySelectorAll(".step").forEach((step) => observer.observe(step))
+    updateScrollEffects()
+    window.addEventListener("scroll", updateScrollEffects, { passive: true })
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("scroll", updateScrollEffects)
+    }
+  }, [])
+
   return (
     <>
+      <Background />
+      <div className="night" aria-hidden="true" />
       <div className="stream" aria-hidden="true" />
       <header className="top">
         <div className="logo">SCALE UP</div>
@@ -12,7 +45,7 @@ export default function App() {
           <a href="#loop">&gt; concepts</a>
           <a href="#cast">&gt; cast</a>
         </nav>
-        <div className="clock m">SYSTEM ONLINE</div>
+        <div className="clock m">{clock}</div>
       </header>
       <main className="wrap">
         <Hero />
@@ -47,14 +80,7 @@ export default function App() {
           <div className="k">PLAYGROUND</div>
           <h2>Drag the pieces. Wire your own city.</h2>
           <p>Grab any block and move it. The links follow. This is where levels will happen.</p>
-          <div className="pg">
-            <div className="link l1" aria-hidden="true" />
-            <div className="link l2" aria-hidden="true" />
-            <div className="link l3" aria-hidden="true" />
-            {["CLIENTS", "LOAD BALANCER", "SERVER A", "SERVER B", "DATABASE"].map((node, i) => (
-              <div className={`nd node-${i}`} key={node}>{node}</div>
-            ))}
-          </div>
+          <Playground />
         </section>
         <section id="cast">
           <div className="k">THE CAST</div>
@@ -84,14 +110,7 @@ export default function App() {
         <section>
           <div className="k">A TASTE OF 3 AM</div>
           <h2>Something is wrong with the database.</h2>
-          <div className="term m">
-            <div>03:09:41 api-1 GET /checkout 200 112ms</div>
-            <div className="warn">03:10:30 api-1 slow query 2.8s: SELECT * FROM orders</div>
-            <div className="warn">03:11:05 db-1 connections 498/500</div>
-            <div className="error">03:11:40 api-3 ERROR timeout waiting for db</div>
-            <div className="error">03:12:18 db-1 CPU 99%, disk reads 40x normal</div>
-            <div>&gt; what is the root cause?_</div>
-          </div>
+          <Terminal />
         </section>
         <footer>
           <h2>Ready when you are.</h2>
